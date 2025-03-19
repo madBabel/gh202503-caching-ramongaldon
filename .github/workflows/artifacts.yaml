@@ -15,8 +15,14 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: '20.x'
-           
+            - name: Download cached dependencies
+              id: cache
+              uses: actions/cache@v4
+              with:
+                  key: deps-node-modules-${{ hashFiles('my-app/package-lock.json') }}
+                  path: my-app/node_modules           
             - name: install dependencies  
+              if:  steps.cache.outputs.cache-hit != 'true'
               run: |
                 npm ci
                   
