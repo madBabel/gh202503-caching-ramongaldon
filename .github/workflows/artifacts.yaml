@@ -29,7 +29,12 @@ jobs:
             - name: Build code
               run: |
                 npm run build
-
+            
+            - name: Upload
+              uses: actions/upload-artifact@v4
+              with: 
+                  name: build 
+                  path: my-app/build               
          
     deploy:
         runs-on: ubuntu-latest
@@ -37,3 +42,9 @@ jobs:
             - test-build
         steps:         
             - run: echo "test build"    
+            - name: Download  artifact
+              uses: actions/download-artifact@v4
+              with: 
+                  name: build 
+                  path: my-app/build  
+              
